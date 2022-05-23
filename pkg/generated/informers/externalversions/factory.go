@@ -28,6 +28,7 @@ import (
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	cache "k8s.io/client-go/tools/cache"
 	versioned "k8s.io/sample-controller/pkg/generated/clientset/versioned"
+	cnat "k8s.io/sample-controller/pkg/generated/informers/externalversions/cnat"
 	internalinterfaces "k8s.io/sample-controller/pkg/generated/informers/externalversions/internalinterfaces"
 	samplecontroller "k8s.io/sample-controller/pkg/generated/informers/externalversions/samplecontroller"
 )
@@ -172,7 +173,12 @@ type SharedInformerFactory interface {
 	ForResource(resource schema.GroupVersionResource) (GenericInformer, error)
 	WaitForCacheSync(stopCh <-chan struct{}) map[reflect.Type]bool
 
+	Cnat() cnat.Interface
 	Samplecontroller() samplecontroller.Interface
+}
+
+func (f *sharedInformerFactory) Cnat() cnat.Interface {
+	return cnat.New(f, f.namespace, f.tweakListOptions)
 }
 
 func (f *sharedInformerFactory) Samplecontroller() samplecontroller.Interface {

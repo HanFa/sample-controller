@@ -25,6 +25,8 @@ import (
 	fakediscovery "k8s.io/client-go/discovery/fake"
 	"k8s.io/client-go/testing"
 	clientset "k8s.io/sample-controller/pkg/generated/clientset/versioned"
+	cnatv1alpha1 "k8s.io/sample-controller/pkg/generated/clientset/versioned/typed/cnat/v1alpha1"
+	fakecnatv1alpha1 "k8s.io/sample-controller/pkg/generated/clientset/versioned/typed/cnat/v1alpha1/fake"
 	samplecontrollerv1alpha1 "k8s.io/sample-controller/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1"
 	fakesamplecontrollerv1alpha1 "k8s.io/sample-controller/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1/fake"
 )
@@ -78,6 +80,11 @@ var (
 	_ clientset.Interface = &Clientset{}
 	_ testing.FakeClient  = &Clientset{}
 )
+
+// CnatV1alpha1 retrieves the CnatV1alpha1Client
+func (c *Clientset) CnatV1alpha1() cnatv1alpha1.CnatV1alpha1Interface {
+	return &fakecnatv1alpha1.FakeCnatV1alpha1{Fake: &c.Fake}
+}
 
 // SamplecontrollerV1alpha1 retrieves the SamplecontrollerV1alpha1Client
 func (c *Clientset) SamplecontrollerV1alpha1() samplecontrollerv1alpha1.SamplecontrollerV1alpha1Interface {
