@@ -1,0 +1,7 @@
+apiVersion: cnat.k8s.io/v1alpha1
+kind: At
+metadata:
+  name: example-at
+spec:
+  schedule: "2022-05-23T03:22:00Z"
+  command: "echo hello world"
